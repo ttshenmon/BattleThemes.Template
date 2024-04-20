@@ -1,85 +1,117 @@
-﻿using BattleThemes.Template.Template;
+using BattleThemes.Template.Template;
 using BattleThemes.Template.Template.Configuration;
-using BGME.BattleThemes.Config;
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using System.ComponentModel;
 
-namespace BattleThemes.Template;
-
-public class Mod : ModBase
+namespace BattleThemes.Template
 {
-    private readonly IModLoader modLoader;
-    private readonly IReloadedHooks? hooks;
-    private readonly ILogger log;
-    private readonly IMod owner;
-
-    private Config config;
-    private readonly IModConfig modConfig;
-
-    private readonly ThemeConfig themeConfig;
-
-    public Mod(ModContext context)
+    public class Mod : ModBase
     {
-        this.modLoader = context.ModLoader;
-        this.hooks = context.Hooks;
-        this.log = context.Logger;
-        this.owner = context.Owner;
-        this.config = context.Configuration;
-        this.modConfig = context.ModConfig;
+        private readonly IModLoader modLoader;
+        private readonly ILogger log;
+        private readonly IMod owner;
 
-        this.themeConfig = new(this.modLoader, this.modConfig, this.config, this.log);
+        private Config config;
+        private readonly IModConfig modConfig;
 
-        /* Connect the battle theme files to the config. */
-        /* Steps:
-         * 1. Place battle theme files in: MOD_FOLDER/battle-themes/options
-         * 2. Add a config setting for it in: public class Config : Configurable<Config>
-         * 3. Edit/copy and paste the line below with your new setting and the theme file it enables.
-         * 
-         * For example, right now the config has a "P4G" setting which enables "p4g.theme.pme" in the options folder.
-         */
+        private readonly ThemeConfig themeConfig;
 
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "kpop.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "aespa.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "beast.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "bts.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "gidle.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "got7.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "lesserafim.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "nmixx.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "redvelvet.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "shinee.theme.pme");
-        this.themeConfig.AddSetting(nameof(this.config.kpop), "stayc.theme.pme");
+        public Mod(ModContext context)
+        {
+            this.modLoader = context.ModLoader;
+            this.log = context.Logger;
+            this.owner = context.Owner;
+            this.config = context.Configuration;
+            this.modConfig = context.ModConfig;
 
+            this.themeConfig = new ThemeConfig(this.modLoader, this.modConfig, this.config, this.log);
 
-        /*-------------------------------------------------------*/
-        this.themeConfig.Initialize();
+            string modDirectory = @"E:\Reloaded2\Mods";
+            string optionsDirectory = Path.Combine(modDirectory, "sees.costume.kpop", "battle-themes", "music");
+
+            string[] themeFiles = Directory.GetFiles(optionsDirectory);
+
+            foreach (string file in themeFiles)
+            {
+                string fileName = Path.GetFileName(file);
+                this.themeConfig.AddSetting(nameof(Config.Kpop), fileName); // Replace Config.Kpop with appropriate names for each song
+            }
+
+            this.themeConfig.Initialize();
+        }
+
+        public override void ConfigurationUpdated(Config configuration)
+        {
+            config = configuration;
+            log.WriteLine($"[{modConfig.ModId}] Config Updated: Applying");
+        }
+
+        public Mod() { }
     }
 
-    #region Standard Overrides
-    public override void ConfigurationUpdated(Config configuration)
+    public class Config : Configurable<Config>
     {
-        // Apply settings from configuration.
-        // ... your code here.
-        config = configuration;
-        log.WriteLine($"[{modConfig.ModId}] Config Updated: Applying");
+        /* ADD CONFIG SETTINGS HERE */
+
+        // Replace the configuration settings with appropriate names for your songs
+        [Category("Kpop")]
+        [DisplayName("Aespa")]
+        [Description("Battle theme: Aespa")]
+        [DefaultValue(true)]
+        public bool Aespa { get; set; } = true;
+
+        [Category("Kpop")]
+        [DisplayName("Beast")]
+        [Description("Battle theme: Beast")]
+        [DefaultValue(true)]
+        public bool Beast { get; set; } = true;
+
+        [Category("Kpop")]
+        [DisplayName("BTS")]
+        [Description("Battle theme: BTS")]
+        [DefaultValue(true)]
+        public bool Bts { get; set; } = true;
+
+        [Category("Kpop")]
+        [DisplayName("Gidle")]
+        [Description("Battle theme: Gidle")]
+        [DefaultValue(true)]
+        public bool Gidle { get; set; } = true;
+
+        [Category("Kpop")]
+        [DisplayName("Got7")]
+        [Description("Battle theme: Got7")]
+        [DefaultValue(true)]
+        public bool Got7 { get; set; } = true;
+
+        [Category("Kpop")]
+        [DisplayName("Lesserafim")]
+        [Description("Battle theme: Lesserafim")]
+        [DefaultValue(true)]
+        public bool Lesserafim { get; set; } = true;
+
+        [Category("Kpop")]
+        [DisplayName("Nmixx")]
+        [Description("Battle theme: Nmixx")]
+        [DefaultValue(true)]
+        public bool Nmixx { get; set; } = true;
+
+        [Category("Kpop")]
+        [DisplayName("Redvelvet")]
+        [Description("Battle theme: Redvelvet")]
+        [DefaultValue(true)]
+        public bool Redvelvet { get; set; } = true;
+
+        [Category("Kpop")]
+        [DisplayName("Shinee")]
+        [Description("Battle theme: Shinee")]
+        [DefaultValue(true)]
+        public bool Shinee { get; set; } = true;
+
+        [Category("Kpop")]
+        [DisplayName("Stayc")]
+        [Description("Battle theme: Stayc")]
+        [DefaultValue(true)]
+        public bool Stayc { get; set; } = true;
     }
-    #endregion
-
-    #region For Exports, Serialization etc.
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public Mod() { }
-#pragma warning restore CS8618
-    #endregion
-}
-
-public class Config : Configurable<Config>
-{
-    /* ADD CONFIG SETTINGS HERE */
-
-    [Category("Aespa")]
-    [DisplayName("Black Mamba")]
-    [Description("plays black mamba by aespa")]
-    [DefaultValue(true)]
-    public bool aespa { get; set; } = true;
-}
