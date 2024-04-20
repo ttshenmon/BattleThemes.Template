@@ -6,6 +6,7 @@ using Reloaded.Mod.Interfaces;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace BattleThemes.Template
 {
@@ -32,24 +33,14 @@ namespace BattleThemes.Template
 
             this.themeConfig = new(this.modLoader, this.modConfig, this.config, this.log);
 
-            /* Connect the battle theme files to the config. */
-            /* Steps:
-             * 1. Place battle theme files in: MOD_FOLDER/battle-themes/options
-             * 2. Add a config setting for each song in the public class Config : Configurable<Config>
-             * 3. Edit/copy and paste the line below with your new setting and the theme file it enables.
-             * 
-             * For example, if you have "song1.mp3" and "song2.mp3" in the options folder,
-             * you can add settings like:
-             * 
-             * [DefaultValue(true)]
-             * public bool Song1 { get; set; } = true;
-             * 
-             * [DefaultValue(true)]
-             * public bool Song2 { get; set; } = true;
-             */
+            // Get the directory where the mod assembly is located
+            string modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            // Combine the mod directory with the relative path to the theme files
+            string optionsDirectory = Path.Combine(modDirectory, "battle-themes", "options");
 
             // Get all files in the battle-themes/options folder
-            string[] themeFiles = Directory.GetFiles(Path.Combine(context.ModDirectory.FullName, "battle-themes", "options"));
+            string[] themeFiles = Directory.GetFiles(optionsDirectory);
 
             // Add settings for each song in the folder
             foreach (string file in themeFiles)
@@ -59,11 +50,10 @@ namespace BattleThemes.Template
                 this.themeConfig.AddSetting(nameof(Config.Aespa), fileName); // Replace Config.Aespa with appropriate names for each song
             }
 
-            /*-------------------------------------------------------*/
+            // Initialize the theme configuration
             this.themeConfig.Initialize();
         }
 
-        #region Standard Overrides
         public override void ConfigurationUpdated(Config configuration)
         {
             // Apply settings from configuration.
@@ -71,13 +61,8 @@ namespace BattleThemes.Template
             config = configuration;
             log.WriteLine($"[{modConfig.ModId}] Config Updated: Applying");
         }
-        #endregion
 
-        #region For Exports, Serialization etc.
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Mod() { }
-#pragma warning restore CS8618
-        #endregion
     }
 
     public class Config : Configurable<Config>
