@@ -25,7 +25,7 @@ namespace BattleThemes.Template
             this.config = context.Configuration;
             this.modConfig = context.ModConfig;
 
-            this.themeConfig = new(this.modLoader, this.modConfig, this.config, this.log);
+            this.themeConfig = new ThemeConfig(this.modLoader, this.modConfig, this.config, this.log);
 
             /* Add the K-pop setting */
             this.themeConfig.AddSetting(nameof(this.config.Kpop), "kpop.theme.pme");
@@ -57,8 +57,7 @@ namespace BattleThemes.Template
         [Category("K-pop")]
         [DisplayName("K-pop Theme")]
         [Description("Enable K-pop battle theme.")]
-        [DefaultValue(true)]
-        public bool Kpop { get; set; } = true;
+        [DefaultValue(false)]
+        public bool Kpop { get; set; } = false;
     }
 }
-
