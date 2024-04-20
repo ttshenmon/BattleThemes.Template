@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
 using BattleThemes.Template.Template;
 using BattleThemes.Template.Template.Configuration;
 using BGME.BattleThemes.Config;
@@ -33,7 +32,8 @@ namespace BattleThemes.Template
 
             this.themeConfig = new(this.modLoader!, this.modConfig!, this.config!, this.log!);
 
-            string modDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            // Update the directory path to the correct one
+            string modDirectory = @"E:\Reloaded2\Mods";
             string optionsDirectory = Path.Combine(modDirectory, "sees.costume.kpop", "battle-themes", "options");
 
             string[] themeFiles = Directory.GetFiles(optionsDirectory);
@@ -59,7 +59,7 @@ namespace BattleThemes.Template
     public class Config : Configurable<Config>
     {
         /* ADD CONFIG SETTINGS HERE */
-        // Add a configuration setting for each song file
+
         [DefaultValue(true)]
         public bool Aespa { get; set; } = true;
 
