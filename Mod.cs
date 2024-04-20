@@ -28,7 +28,7 @@ namespace BattleThemes.Template
             this.themeConfig = new ThemeConfig(this.modLoader, this.modConfig, this.config, this.log);
 
             string modDirectory = @"E:\Reloaded2\Mods";
-            string optionsDirectory = Path.Combine(modDirectory, "sees.costume.kpop", "battle-themes", "music");
+            string optionsDirectory = Path.Combine(modDirectory, "sees.costume.kpop", "battle-themes", "options");
 
             string[] themeFiles = Directory.GetFiles(optionsDirectory);
 
@@ -115,3 +115,4 @@ namespace BattleThemes.Template
         [DefaultValue(true)]
         public bool Stayc { get; set; } = true;
     }
+}
