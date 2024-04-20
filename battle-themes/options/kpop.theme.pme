@@ -1,0 +1,2 @@
+const kpop_bgm = [Gidle, Redvelvet, Nmixx, Stayc, Lesserafim, Got7, Aespa, Beast, Shinee, Bts]
+const BATTLE_THEME = random_song(kpop_bgm)
