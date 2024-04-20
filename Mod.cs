@@ -4,6 +4,8 @@ using BGME.BattleThemes.Config;
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System.IO;
 
 namespace BattleThemes.Template
 {
@@ -33,14 +35,29 @@ namespace BattleThemes.Template
             /* Connect the battle theme files to the config. */
             /* Steps:
              * 1. Place battle theme files in: MOD_FOLDER/battle-themes/options
-             * 2. Add a config setting for it in: public class Config : Configurable<Config>
+             * 2. Add a config setting for each song in the public class Config : Configurable<Config>
              * 3. Edit/copy and paste the line below with your new setting and the theme file it enables.
              * 
-             * For example, right now the config has a "P4G" setting which enables "p4g.theme.pme" in the options folder.
+             * For example, if you have "song1.mp3" and "song2.mp3" in the options folder,
+             * you can add settings like:
+             * 
+             * [DefaultValue(true)]
+             * public bool Song1 { get; set; } = true;
+             * 
+             * [DefaultValue(true)]
+             * public bool Song2 { get; set; } = true;
              */
 
-            // Add the setting for the K-Pop battle theme
-            this.themeConfig.AddSetting(nameof(this.config.KPopTheme), "kpop.theme.pme");
+            // Get all files in the battle-themes/options folder
+            string[] themeFiles = Directory.GetFiles(Path.Combine(context.ModDirectory.FullName, "battle-themes", "options"));
+
+            // Add settings for each song in the folder
+            foreach (string file in themeFiles)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(file);
+                // Adding a configuration setting for each song file
+                this.themeConfig.AddSetting(nameof(Config.Aespa), fileName); // Replace Config.Aespa with appropriate names for each song
+            }
 
             /*-------------------------------------------------------*/
             this.themeConfig.Initialize();
@@ -66,11 +83,35 @@ namespace BattleThemes.Template
     public class Config : Configurable<Config>
     {
         /* ADD CONFIG SETTINGS HERE */
-
-        [Category("K-Pop")]
-        [DisplayName("K-Pop Battle Theme")]
-        [Description("This setting enables the K-Pop battle theme.")]
+        // Add a configuration setting for each song file
         [DefaultValue(true)]
-        public bool KPopTheme { get; set; } = true;
+        public bool Aespa { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool Beast { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool Bts { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool Gidle { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool Got7 { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool Lesserafim { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool Nmixx { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool Redvelvet { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool Shinee { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool Stayc { get; set; } = true;
     }
 }
