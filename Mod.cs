@@ -39,8 +39,7 @@ namespace BattleThemes.Template
 
             foreach (string file in themeFiles)
             {
-                string fileName = Path.GetFileNameWithoutExtension(file);
-                // Replace "P4G" with appropriate names for your songs
+                string fileName = Path.GetFileName(file);
                 this.themeConfig.AddSetting(nameof(Config.Aespa), fileName); // Replace Config.Aespa with appropriate names for each song
             }
 
@@ -92,4 +91,3 @@ namespace BattleThemes.Template
         public bool Stayc { get; set; } = true;
     }
 }
-
