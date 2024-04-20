@@ -32,7 +32,6 @@ namespace BattleThemes.Template
 
             this.themeConfig = new(this.modLoader!, this.modConfig!, this.config!, this.log!);
 
-            // Update the directory path to the correct one
             string modDirectory = @"E:\Reloaded2\Mods";
             string optionsDirectory = Path.Combine(modDirectory, "sees.costume.kpop", "battle-themes", "options");
 
@@ -41,6 +40,7 @@ namespace BattleThemes.Template
             foreach (string file in themeFiles)
             {
                 string fileName = Path.GetFileNameWithoutExtension(file);
+                // Replace "P4G" with appropriate names for your songs
                 this.themeConfig.AddSetting(nameof(Config.Aespa), fileName); // Replace Config.Aespa with appropriate names for each song
             }
 
@@ -60,6 +60,7 @@ namespace BattleThemes.Template
     {
         /* ADD CONFIG SETTINGS HERE */
 
+        // Replace the configuration settings with appropriate names for your songs
         [DefaultValue(true)]
         public bool Aespa { get; set; } = true;
 
@@ -91,3 +92,4 @@ namespace BattleThemes.Template
         public bool Stayc { get; set; } = true;
     }
 }
+
