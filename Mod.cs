@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using BattleThemes.Template.Template;
 using BattleThemes.Template.Template.Configuration;
 using BGME.BattleThemes.Config;
@@ -5,8 +8,6 @@ using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 
 namespace BattleThemes.Template
 {
@@ -34,10 +35,10 @@ namespace BattleThemes.Template
             this.themeConfig = new(this.modLoader, this.modConfig, this.config, this.log);
 
             // Get the directory where the mod assembly is located
-            string modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string modDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             // Combine the mod directory with the relative path to the theme files
-            string optionsDirectory = Path.Combine(modDirectory, "battle-themes", "options");
+            string optionsDirectory = Path.Combine(modDirectory, "sees.costume.kpop", "battle-themes", "options");
 
             // Get all files in the battle-themes/options folder
             string[] themeFiles = Directory.GetFiles(optionsDirectory);
