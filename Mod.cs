@@ -1,6 +1,4 @@
 using System.IO;
-using BattleThemes.Template.Template;
-using BattleThemes.Template.Template.Configuration;
 using Reloaded.Mod.Interfaces;
 using System.ComponentModel;
 
@@ -8,8 +6,6 @@ namespace BattleThemes.Template
 {
     public class Mod : ModBase
     {
-        private readonly ThemeConfig themeConfig;
-
         public Mod(ModContext context)
         {
             string modDirectory = @"E:\Reloaded2\Mods";
@@ -17,15 +13,13 @@ namespace BattleThemes.Template
 
             string[] themeFiles = Directory.GetFiles(optionsDirectory);
 
-            this.themeConfig = new ThemeConfig(context.ModLoader, context.ModConfig, context.Configuration, context.Logger);
-
             foreach (string file in themeFiles)
             {
                 string fileName = Path.GetFileName(file);
-                this.themeConfig.AddSetting(nameof(Config.Kpop), fileName); // Change Aespa to Kpop
+                AddSetting(nameof(Config.Kpop), fileName); // Change Aespa to Kpop
             }
 
-            this.themeConfig.Initialize();
+            Initialize();
         }
 
         public Mod() { }
