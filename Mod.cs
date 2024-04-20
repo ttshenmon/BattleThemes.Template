@@ -25,94 +25,40 @@ namespace BattleThemes.Template
             this.config = context.Configuration;
             this.modConfig = context.ModConfig;
 
-            this.themeConfig = new ThemeConfig(this.modLoader, this.modConfig, this.config, this.log);
+            this.themeConfig = new(this.modLoader, this.modConfig, this.config, this.log);
 
-            string modDirectory = @"E:\Reloaded2\Mods";
-            string optionsDirectory = Path.Combine(modDirectory, "sees.costume.kpop", "battle-themes", "options");
+            /* Add the K-pop setting */
+            this.themeConfig.AddSetting(nameof(this.config.Kpop), "kpop.theme.pme");
 
-            string[] themeFiles = Directory.GetFiles(optionsDirectory);
-
-            foreach (string file in themeFiles)
-            {
-                string fileName = Path.GetFileName(file);
-                this.themeConfig.AddSetting(nameof(Config.Kpop), fileName); // Replace Config.Kpop with appropriate names for each song
-            }
-
+            /* Initialize the theme configuration */
             this.themeConfig.Initialize();
         }
 
+        #region Standard Overrides
         public override void ConfigurationUpdated(Config configuration)
         {
+            // Apply settings from configuration.
+            // ... your code here.
             config = configuration;
             log.WriteLine($"[{modConfig.ModId}] Config Updated: Applying");
         }
+        #endregion
 
+        #region For Exports, Serialization etc.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Mod() { }
+#pragma warning restore CS8618
+        #endregion
     }
 
     public class Config : Configurable<Config>
     {
-        /* ADD CONFIG SETTINGS HERE */
-
-        // Replace the configuration settings with appropriate names for your songs
-        [Category("Kpop")]
-        [DisplayName("Aespa")]
-        [Description("Battle theme: Aespa")]
+        /* New setting for K-pop */
+        [Category("K-pop")]
+        [DisplayName("K-pop Theme")]
+        [Description("Enable K-pop battle theme.")]
         [DefaultValue(true)]
-        public bool Aespa { get; set; } = true;
-
-        [Category("Kpop")]
-        [DisplayName("Beast")]
-        [Description("Battle theme: Beast")]
-        [DefaultValue(true)]
-        public bool Beast { get; set; } = true;
-
-        [Category("Kpop")]
-        [DisplayName("BTS")]
-        [Description("Battle theme: BTS")]
-        [DefaultValue(true)]
-        public bool Bts { get; set; } = true;
-
-        [Category("Kpop")]
-        [DisplayName("Gidle")]
-        [Description("Battle theme: Gidle")]
-        [DefaultValue(true)]
-        public bool Gidle { get; set; } = true;
-
-        [Category("Kpop")]
-        [DisplayName("Got7")]
-        [Description("Battle theme: Got7")]
-        [DefaultValue(true)]
-        public bool Got7 { get; set; } = true;
-
-        [Category("Kpop")]
-        [DisplayName("Lesserafim")]
-        [Description("Battle theme: Lesserafim")]
-        [DefaultValue(true)]
-        public bool Lesserafim { get; set; } = true;
-
-        [Category("Kpop")]
-        [DisplayName("Nmixx")]
-        [Description("Battle theme: Nmixx")]
-        [DefaultValue(true)]
-        public bool Nmixx { get; set; } = true;
-
-        [Category("Kpop")]
-        [DisplayName("Redvelvet")]
-        [Description("Battle theme: Redvelvet")]
-        [DefaultValue(true)]
-        public bool Redvelvet { get; set; } = true;
-
-        [Category("Kpop")]
-        [DisplayName("Shinee")]
-        [Description("Battle theme: Shinee")]
-        [DefaultValue(true)]
-        public bool Shinee { get; set; } = true;
-
-        [Category("Kpop")]
-        [DisplayName("Stayc")]
-        [Description("Battle theme: Stayc")]
-        [DefaultValue(true)]
-        public bool Stayc { get; set; } = true;
+        public bool Kpop { get; set; } = true;
     }
 }
+
